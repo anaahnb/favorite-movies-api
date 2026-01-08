@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FavoriteMovieController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -23,3 +24,9 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->get('/me', [UserController::class, 'me']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/favorites', [FavoriteMovieController::class, 'index']);
+    Route::post('/favorites', [FavoriteMovieController::class, 'store']);
+    Route::delete('/favorites/{tmdb_movie_id}', [FavoriteMovieController::class, 'destroy']);
+});
