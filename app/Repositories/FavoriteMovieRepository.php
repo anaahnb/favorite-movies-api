@@ -23,6 +23,7 @@ class FavoriteMovieRepository implements FavoriteMovieRepositoryInterface
       [
         'title' => $data['title'],
         'poster_path' => $data['poster_path'] ?? null,
+        'genre_ids' => $data['genre_ids'] ?? [],
       ]
     );
   }

@@ -14,5 +14,8 @@ class FavoriteMovie extends Model
         'tmdb_movie_id',
         'title',
         'poster_path',
+        'genre_ids',
     ];
+
+    protected $casts = ['genre_ids' => 'array'];
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tmdb_movie_id');
             $table->string('title')->nullable();
             $table->string('poster_path')->nullable();
+            $table->json('genre_ids')->nullable();
             $table->timestamps();
 
             $table->unique(['user_id', 'tmdb_movie_id']);

@@ -25,6 +25,7 @@ class StoreFavoriteMovieRequest extends FormRequest
             'tmdb_movie_id' => 'required|integer',
             'title' => 'required|string',
             'poster_path' => 'nullable|string',
+            'genre_ids' => 'nullable|array',
         ];
     }
 }

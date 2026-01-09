@@ -25,8 +25,8 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->get('/me', [UserController::class, 'me']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/favorites', [FavoriteMovieController::class, 'index']);
-    Route::post('/favorites', [FavoriteMovieController::class, 'store']);
-    Route::delete('/favorites/{tmdb_movie_id}', [FavoriteMovieController::class, 'destroy']);
+Route::middleware('auth:sanctum')->prefix('favorites')->group(function () {
+    Route::get('/', [FavoriteMovieController::class, 'index']);
+    Route::post('/', [FavoriteMovieController::class, 'store']);
+    Route::delete('{tmdb_movie_id}', [FavoriteMovieController::class, 'destroy']);
 });
