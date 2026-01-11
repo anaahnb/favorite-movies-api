@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Repositories\Contracts\AuthRepositoryInterface;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -26,10 +27,8 @@ class AuthRepository implements AuthRepositoryInterface
   {
     $user = User::where('email', $data['email'])->first();
 
-    if (! $user || ! Hash::check($data['password'], $user->password)) {
-      throw ValidationException::withMessages([
-        'email' => ['Credenciais inválidas.'],
-      ]);
+    if (!$user || !Hash::check($data['password'], $user->password)) {
+      throw new AuthenticationException('E-mail ou senha inválidos.');
     }
 
     return [
