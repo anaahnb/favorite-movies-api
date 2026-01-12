@@ -53,28 +53,39 @@ http://localhost:8000
 Para ver a documentação completa da API, [acesse aqui!](https://www.postman.com/cryosat-geoscientist-4230260/apis/collection/33926909-6d97e181-9f0e-4ad1-ab91-267387cf5483/?action=share&creator=33926909)
 
 
-### Autenticação
+### Rotas públicas
 
-`POST /register` Permite que novos usuários se registrem na aplicação.
+| Método | Endpoint        | Descrição                                       |
+| ------ | --------------- | ----------------------------------------------- |
+| POST   | /auth/register  | Registra um novo usuário na aplicação           |
+| POST   | /auth/login     | Autentica o usuário e retorna um token de acesso|
 
-`POST /login` Autenticar um usuário com base nas credenciais fornecidas (email e senha) e gerar um token de acesso, se as credenciais forem válidas.
 
-```bash
+Exemplo de payload para `POST /auth/login`:
+
+```json
 {
   "email": "ana@gmail.com.br",
   "password": "password"
 }
 ```
 
-`POST /logout` Permite que usuários autenticados encerram sua sessão e invalidam o token de acesso.
-
 ---
 
-### Favoritos
+### Rotas protegidas
+
 Ao realizar o login, copie o token gerado na resposta da requisição e adicione-o em Authorization → Bearer Token.
 
-`POST /favorites` Permite criar adicionar um filme como favorito.
-```bash
+#### Favoritos
+
+| Método | Endpoint        | Descrição                                       |
+| ------ | --------------- | ----------------------------------------------- |
+| POST   | /favorites    | Adiciona um filme à lista de favoritos |
+| GET   | /favorites    | Retorna a lista de filmes favoritos do usuário |
+| DELETE   | /favorites/{tmdb_movie_id}    | Remove um filme da lista de favoritos |
+
+ Exemplo de payload para `POST /favorites`
+```json
 {
   "tmdb_movie_id": 540,
   "title": "D.E.B.S",
@@ -85,9 +96,12 @@ Ao realizar o login, copie o token gerado na resposta da requisição e adicione
 }
 ```
 
-`GET /favorites` Retorna a lista de filmes favoritos do usuário, incluindo algumas informações base da TMDB.
+#### Autenticação
 
-`DELETE /favorites/{id}` Permite excluir um filme da lista de favoritos com base no ID fornecido.
+| Método | Endpoint        | Descrição                                       |
+| ------ | --------------- | ----------------------------------------------- |
+| POST   | /auth/logout    | Encerra a sessão do usuário autenticado|
+| GET   | /me    | Retorna os dados do usuário autenticado|
 
 ## Estruturas de pastas
 
