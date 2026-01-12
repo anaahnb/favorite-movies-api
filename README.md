@@ -1,65 +1,152 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este repositório contém uma API desenvolvida em Laravel, responsável por autenticação de usuários e gerenciamento da lista de filmes favoritos. Desenvolvida para o teste técnico da empresa [LWSA | King Host](https://king.host/hospedagem-de-sites).
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tecnologias Utilizadas
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **PHP 8.1**
+- **Laravel 10**
+- **Laravel Sanctum**
+- **MySQL**
+- **Docker**
+- **Docker Compose**
+- **Nginx**
+- **Composer**
+- **REST API**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Instalação
+### Pré-requisitos
 
-## Learning Laravel
+Certifique-se de ter instalado na sua máquina:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Docker
+- Docker Compose
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Rode o seguinte comando na raiz do projeto:
+```bash
+./start.sh
+```
 
-## Laravel Sponsors
+Este comando executa um script auxiliar, que facilita a inicialização:
+- Sobe os containers
+- Instala de dependências e gera a chave da aplicação
+- Executa as migrations e as seeders
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Caso queira recriar o banco do zero, utilize:
+```bash
+./start.sh --reset
+```
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+A API ficará disponível em:
 
-## Contributing
+```
+http://localhost:8000
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Rotas
 
-## Code of Conduct
+Para ver a documentação completa da API, [acesse aqui!](https://www.postman.com/cryosat-geoscientist-4230260/apis/collection/33926909-6d97e181-9f0e-4ad1-ab91-267387cf5483/?action=share&creator=33926909)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+### Autenticação
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+`POST /register` Permite que novos usuários se registrem na aplicação.
+
+`POST /login` Autenticar um usuário com base nas credenciais fornecidas (email e senha) e gerar um token de acesso, se as credenciais forem válidas.
+
+```bash
+{
+  "email": "ana@gmail.com.br",
+  "password": "password"
+}
+```
+
+`POST /logout` Permite que usuários autenticados encerram sua sessão e invalidam o token de acesso.
+
+---
+
+### Favoritos
+Ao realizar o login, copie o token gerado na resposta da requisição e adicione-o em Authorization → Bearer Token.
+
+`POST /favorites` Permite criar adicionar um filme como favorito.
+```bash
+{
+  "tmdb_movie_id": 540,
+  "title": "D.E.B.S",
+  "poster_path": "/78mnEEftCn4RBz68VRCRIgb1o3o.jpg",
+  "genre_ids": [
+      28, 35, 10749
+  ]
+}
+```
+
+`GET /favorites` Retorna a lista de filmes favoritos do usuário, incluindo algumas informações base da TMDB.
+
+`DELETE /favorites/{id}` Permite excluir um filme da lista de favoritos com base no ID fornecido.
+
+## Estruturas de pastas
+
+```bash
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── AuthController.php              # Registro, login e logout de usuários
+│   │   └── FavoriteMovieController.php     # CRUD de filmes favoritos
+│   │
+│   └── Requests/                           # Validação dos dados das requisições
+│       ├── LoginRequest.php
+│       ├── RegisterRequest.php
+│       └── StoreFavoriteMovieRequest.php
+│
+├── Models/
+│   ├── User.php                            # Model de usuários
+│   └── FavoriteMovie.php                   # Model de filmes favoritos
+│
+├── Repositories/                           # Regras de negócios e acesso ao banco
+│   ├── Contracts/                          # Interfaces dos repositórios
+│   ├── AuthRepository.php
+│   └── FavoriteMovieRepository.php
+
+database/
+├── migrations/
+│   ├── x_create_users_table.php            # Estrutura da tabela de usuários
+│   └── x_create_favorite_movies_table.php  # Estrutura da tabela de favoritos
+│
+├── seeders/
+│   └── DatabaseSeeder.php                  # Seeds de dados
+
+routes/
+├── api.php                                 # Rotas da API
+
+tests/
+└── Feature/
+    └── FavoriteMovieTest.php               # Testes da funcionalidade de favoritos
+```
+
+## Testagem da aplicação
+
+A API pode ser testada de três formas:
+
+- Utilize a [Postman Collection](https://www.postman.com/cryosat-geoscientist-4230260/apis/collection/33926909-6d97e181-9f0e-4ad1-ab91-267387cf5483/?action=share&creator=33926909), que contém exemplos de payloads, autenticação e endpoints configurados.
+
+- Faça a configuração do [ambiente frontend](https://github.com/anaahnb/favorite-movies) e siga o fluxo:
+  1. Login ou cadastro
+  2. Pesquisa de filmes
+  3. Adição de um filme aos favoritos
+  4. Visualização da lista de favoritos, com opção de acessar o detalhe do filme ou removê-lo da lista
+
+- Execute os **testes automatizados** da API, focados na funcionalidade de filmes favoritos (adição, listagem, remoção e controle de acesso).
+
+### Testes automatizados
+Para executá-los, utilize:
+```bash
+docker-compose exec app php artisan test
+```
 
 ## License
 
