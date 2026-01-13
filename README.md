@@ -1,6 +1,6 @@
 # Backend
 
-Este repositório contém uma API desenvolvida em Laravel, responsável por autenticação de usuários e gerenciamento da lista de filmes favoritos. Desenvolvida para o teste técnico da empresa [LWSA | King Host](https://king.host/hospedagem-de-sites).
+Este repositório contém uma API desenvolvida em Laravel, responsável por autenticação de usuários e gerenciamento da lista de filmes favoritos
 
 
 ## Tecnologias Utilizadas
